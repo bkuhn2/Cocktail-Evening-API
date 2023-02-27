@@ -25,7 +25,7 @@ app.post('/api/v1/event-offerings', (request, response) => {
   const { glass, id, hasAlcohol, image, ingredients, instructions, name } = request.body;
   app.locals.eventOfferings = [...app.locals.eventOfferings, { glass, hasAlcohol, id, image, ingredients, instructions, name }];
   response.status(201).json({ glass, hasAlcohol, id, image, ingredients, instructions, name })
-})
+}); //NOT WORKING YET - adding to locals BUT giving back 'undefined' as data, but it is giving a 'response' of ok and 201
 
 
 
