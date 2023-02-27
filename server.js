@@ -1,24 +1,33 @@
+const { response } = require('express');
 const express = require('express');
+const res = require('express/lib/response');
 const app = express();
 
 app.set('port', process.env.PORT || 3000);
 app.locals.title = 'Cocktail Evening API';
 
-app.get('/', (request, response) => {
-  // console.log('request: ', request);
-  // console.log('response: ', response);
-  // console.log('test');
-  response.send('Oh hey Cocktails');
-});
-
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on http://localhost:${app.get('port')}.`);
+});
+
+app.get('/', (request, response) => {
+  response.send('Oh hey Cocktails');
 });
 
 app.get('/api/v1/event-offerings', (request, response) => {
   const cocktails = app.locals.eventOfferings
   response.status(200).json({ cocktails })
+});
+
+app.use(express.json());
+
+app.post('/api/v1/event-offerings', (request, response) => {
+  const { glass, id, hasAlcohol, image, ingredients, instructions, name } = request.body;
+  app.locals.eventOfferings = [...app.locals.eventOfferings, { glass, hasAlcohol, id, image, ingredients, instructions, name }];
+  response.status(201).json({ glass, hasAlcohol, id, image, ingredients, instructions, name })
 })
+
+
 
 app.locals.eventOfferings = [
   {
